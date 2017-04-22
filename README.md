@@ -8,7 +8,7 @@ Polygon tools.
 
     npm i @floorplanner/polygon-tools
 
-    
+
 ### triangulation
 
 ```javascript
@@ -16,17 +16,17 @@ Polygon tools.
 import {triangulate} from '@floorplanner/polygon-tools';
 
 const POLYGON = [
-  {x: 0, y: 0},
-  {x: 100, y: 0},
-  {x: 100, y: 100},
-  {x: 0, y: 100}
+  [0, 0],
+  [100, 0],
+  [100, 100],
+  [0, 100]
 ];
 
 const HOLE = [
-  {x: 30, y: 30},
-  {x: 30, y: 70},
-  {x: 70, y: 70},
-  {x: 70, y: 30}
+  [30, 30],
+  [30, 70],
+  [70, 70],
+  [70, 30]
 ];
 
 // returns an array of triangles
@@ -46,7 +46,7 @@ let mask = new PIXI.Graphics();
 // create paths
 let tris = triangles.map(tri => {
   return tri.reduce((p, v) => {
-    return p.concat([v.x, v.y]);
+    return p.push(v[0], v[1]);
   }, []);
 });
 
@@ -58,7 +58,3 @@ tris.forEach(triangle => {
 sprite.mask = mask;
 
 ```
-
-### TODO
-
--  use points like ```[0, 0]``` instead of ```{x:0, y:0}```
