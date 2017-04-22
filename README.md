@@ -6,14 +6,14 @@ Polygon tools.
 
 ### install
 
-    npm i @floorplanner/polygon-tools
+    npm i polygon-tools
 
 
 ### triangulation
 
 ```javascript
 
-import {triangulate} from '@floorplanner/polygon-tools';
+import {triangulate} from 'polygon-tools';
 
 const POLYGON = [
   [0, 0],
