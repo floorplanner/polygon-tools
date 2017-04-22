@@ -21,7 +21,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/floorplanner/poly-tools.git"
+    "url": "https://github.com/floorplanner/polygon-tools.git"
   },
   "scripts": {
     "prepublish": "babel src --out-dir lib",
