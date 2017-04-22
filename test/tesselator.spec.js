@@ -68,13 +68,13 @@ describe('tesselator', () => {
   });
 
   it('should drill holes in a polygon', () => {
+    console.time('\n    triangulation took');
     let result = triangulate(POLYGON, [HOLE, HOLE_2]);
+    console.timeEnd('\n    triangulation took');
+    console.log('\n')
 
     try {
-      console.time('\n    triangulate');
       render('triangles.png', result);
-      console.timeEnd('\n    triangulate');
-      console.log('\n')
     } catch (e) {
       console.log('\n    NOTE: to render a visualization: npm i canvas\n');
     }
