@@ -1,6 +1,6 @@
 {
   "name": "@floorplanner/polygon-tools",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Polygon tools",
   "main": "lib/index.js",
   "dependencies": {
