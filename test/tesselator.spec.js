@@ -1,6 +1,6 @@
 import fs from 'fs';
+import expect from 'expect.js';
 import {triangulate} from '../src/index';
-let expect = require('expect.js');
 
 const POLYGON = [
   {x: 0, y: 0},
@@ -67,13 +67,13 @@ describe('tesselator', () => {
   beforeEach(() => {
   });
 
-  it('should drill a hole', () => {
+  it('should drill holes in a polygon', () => {
     let result = triangulate(POLYGON, [HOLE, HOLE_2]);
 
     try {
       render('triangles.png', result);
     } catch (e) {
-      console.log('to get a visual: npm i canvas');
+      console.log('\n    NOTE: to render a visualization: npm i canvas\n');
     }
   });
 
