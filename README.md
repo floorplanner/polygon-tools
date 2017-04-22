@@ -1,8 +1,8 @@
-### polygon-tools
+## polygon-tools
 
 Polygon tools.
 
-## triangulation
+### triangulation
 
 ```javascript
 
@@ -26,3 +26,32 @@ const HOLE = [
 let triangles = triangulate(POLYGON, [HOLE]);
 
 ```
+
+### use with PIXI
+
+Assuming we have the triangles and a texture:
+
+```javascript
+
+let sprite = new PIXI.Sprite(texture);
+let mask = new PIXI.Graphics();
+
+// create paths
+let tris = triangles.map(tri => {
+  return tri.reduce((p, v) => {
+    return p.concat([v.x, v.y]);
+  }, []);
+});
+
+tris.forEach(triangle => {
+  mask.beginFill(0xff0000);
+  mask.drawPolygon(triangle);
+});
+
+sprite.mask = mask;
+
+```
+
+### TODO
+
+-  use points like ```[0, 0]``` instead of ```{x:0, y:0}```
