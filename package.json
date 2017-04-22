@@ -1,5 +1,5 @@
 {
-  "name": "@floorplanner/polygon-tools",
+  "name": "polygon-tools",
   "version": "0.2.0",
   "description": "Polygon tools",
   "main": "lib/index.js",
