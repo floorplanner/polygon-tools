@@ -30,7 +30,16 @@ export function subtract (a, b) {
   });
 }
 
+/**
+ * Polygon normal
+ *
+ * @param {Array} pts
+ *
+ * @return Polygon normal or null on failure
+ */
 export function normal (pts) {
+
+  if (pts.length < 3) return null;
 
   let vs = pts.map(p => {
         return p.length === 3 ? p : [p[0], p[1], 0];
@@ -41,10 +50,12 @@ export function normal (pts) {
       cr = normalize(cross(ba, ca));
 
   if (cr.some(v => isNaN(v))) {
+    if (pts.length === 3) return null;
   } else {
     return cr;
   }
 
+  // fallback to Newell's method
   let n = [0, 0, 0];
   vs.forEach((v, i) => {
     let w = vs[(i+1) % pts.length];
@@ -56,18 +67,58 @@ export function normal (pts) {
   return normalize(n);
 }
 
+/**
+ * Tests wether the polygon winding is counter clockwise
+ *
+ * @param {Array} pts
+ *
+ * @return Boolean
+ *
+ * @throws Error
+ */
 export function is_ccw (pts) {
   let [a, b, c] = pts,
       r = ccw(a, b, c);
 
   if (r === 0) {
     let n = normal(pts);
+    if (n === null) throw new Error('could not calculate normal');
     return n[2] > 0;
   } else {
     return r > 0;
   }
 }
 
+/**
+ * Tests wether the polygon winding is clockwise
+ *
+ * @param {Array} pts
+ *
+ * @return Boolean
+ *
+ * @throws Error
+ */
 export function is_cw (pts) {
   return !is_ccw(pts);
+}
+
+export function polygon_bounds (pts) {
+  let min = [ Number.MAX_VALUE,  Number.MAX_VALUE, 0],
+      max = [-Number.MAX_VALUE, -Number.MAX_VALUE, 0];
+
+  pts.forEach(p => {
+    for (let i = 0; i < p.length; ++i) {
+      min[i] = Math.min(min[i], p[i]);
+      max[i] = Math.max(max[i], p[i]);
+    }
+  });
+
+  return {
+    xMin: min[0],
+    yMin: min[1],
+    zMin: min[2],
+    xMax: max[0],
+    yMax: max[1],
+    zMax: max[2]
+  };
 }

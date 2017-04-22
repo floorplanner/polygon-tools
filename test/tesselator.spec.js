@@ -3,24 +3,24 @@ import expect from 'expect.js';
 import {triangulate} from '../src/index';
 
 const POLYGON = [
-  {x: 0, y: 0},
-  {x: 100, y: 0},
-  {x: 100, y: 100},
-  {x: 0, y: 100}
+  [0, 0],
+  [100, 0],
+  [100, 100],
+  [0, 100]
 ];
 
 const HOLE = [
-  {x: 30, y: 30},
-  {x: 30, y: 70},
-  {x: 70, y: 70},
-  {x: 70, y: 30}
+  [30, 30],
+  [30, 70],
+  [70, 70],
+  [70, 30]
 ];
 
 const HOLE_2 = [
-  {x: 80, y: 50},
-  {x: 80, y: 80},
-  {x: 190, y: 80},
-  {x: 190, y: 50}
+  [-10, 50],
+  [-10, 80],
+  [190, 80],
+  [190, 50]
 ];
 
 function random_color (alpha=1) {
@@ -32,7 +32,7 @@ function random_color (alpha=1) {
 
 function render_polygon (ctx, polygon, fill=null) {
 
-  let {x, y} = polygon[0];
+  let [x, y] = polygon[0];
 
   ctx.beginPath();
   ctx.fillStyle = fill || random_color();
@@ -41,7 +41,7 @@ function render_polygon (ctx, polygon, fill=null) {
   ctx.moveTo(x, y);
 
   for (let i = 1; i < polygon.length; ++i) {
-    let {x, y} = polygon[i];
+    let [x, y] = polygon[i];
     ctx.lineTo(x, y);
   }
 
@@ -71,7 +71,10 @@ describe('tesselator', () => {
     let result = triangulate(POLYGON, [HOLE, HOLE_2]);
 
     try {
+      console.time('\n    triangulate');
       render('triangles.png', result);
+      console.timeEnd('\n    triangulate');
+      console.log('\n')
     } catch (e) {
       console.log('\n    NOTE: to render a visualization: npm i canvas\n');
     }
