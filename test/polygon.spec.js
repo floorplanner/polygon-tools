@@ -3,8 +3,28 @@ import expect from 'expect.js';
 import * as polygon from '../src/polygon';
 
 const OUT = './test/out';
-
 if (!fs.existsSync(OUT)) fs.mkdirSync(OUT);
+
+const POLYGON = [
+  [0, 0],
+  [100, 0],
+  [100, 100],
+  [0, 100]
+];
+
+const HOLE = [
+  [30, 30],
+  [30, 70],
+  [70, 70],
+  [70, 30]
+];
+
+const HOLE_2 = [
+  [-10, 50],
+  [-10, 80],
+  [190, 80],
+  [190, 50]
+];
 
 function random_color (alpha=1) {
   let r = Math.round(Math.random() * 0xff),
@@ -131,10 +151,56 @@ describe('polygon', () => {
              [150, 150],
              [50, 150]];
     let result = polygon.subtract(a, b);
+    expect(result.length).to.be(1);
     try {
       render('subtract.png', result);
     } catch (e) {
       console.log(e)
+      console.log('\n    NOTE: to render a visualization: npm i canvas\n');
+    }
+  });
+
+  it('intersection', () => {
+    let a = [[0, 0],
+             [100, 0],
+             [100, 100],
+             [0, 100]],
+        b = [[50, 50],
+             [150, 50],
+             [150, 150],
+             [50, 150]];
+    let result = polygon.intersection(a, b);
+    expect(result.length).to.be(1);
+    try {
+      render('intersection.png', result);
+    } catch (e) {
+      console.log(e)
+      console.log('\n    NOTE: to render a visualization: npm i canvas\n');
+    }
+  });
+
+  it('intersection noop', () => {
+    let a = [[0, 0],
+             [100, 0],
+             [100, 100],
+             [0, 100]],
+        b = [[150, 50],
+             [250, 50],
+             [250, 150],
+             [150, 150]];
+    let result = polygon.intersection(a, b);
+    expect(result.length).to.be(0);
+  });
+
+  it('triangulate', () => {
+    console.time('\n    triangulation took');
+    let result = polygon.triangulate(POLYGON, [HOLE, HOLE_2]);
+    console.timeEnd('\n    triangulation took');
+    console.log('\n')
+
+    try {
+      render('triangles.png', result);
+    } catch (e) {
       console.log('\n    NOTE: to render a visualization: npm i canvas\n');
     }
   });

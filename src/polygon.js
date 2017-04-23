@@ -1,4 +1,4 @@
-import Tesselator from './tesselator';
+import * as tess from './tesselator';
 import * as vec from './vec';
 
 export const WINDING_UNKNOWN = 0;
@@ -178,6 +178,53 @@ export function ensure_ccw (pts) {
 }
 
 /**
+ * Helper for triangulate
+ * @private
+ */
+function to_triangles (data) {
+  let result = [];
+  for (let i = 0; i < data.length; i += 3) {
+    result.push([data[i], data[i+1], data[i+2]]);
+  }
+  return result;
+}
+
+/**
+ * Triangulates a polygon
+ *
+ * @param {Array} polygon
+ * @param {Array.<Array>} holes
+ *
+ * @return triangles
+ */
+export function triangulate (polygon, holes) {
+  if (!polygon || polygon.length < 3 || !holes || holes.length < 1)
+    return polygon;
+
+  let bp = bounds(polygon);
+
+  holes = holes.filter(hole => {
+    let b = bounds(hole),
+        out = b.xMin > bp.xMax ||
+              b.yMin > bp.yMax ||
+              b.xMax < bp.xMin ||
+              b.yMax < bp.yMin;
+    return !out;
+  });
+
+  if (holes.length === 0) return polygon;
+
+  let tesselator = new tess.Tesselator(2);
+
+  return tesselator
+    .triangles([polygon], holes)
+    .map(to_triangles)
+    .reduce((p, v) => {
+      return p.concat(v);
+    }, []);
+}
+
+/**
  * Subtract polygons
  *
  * @param {Array} polygons
@@ -185,7 +232,7 @@ export function ensure_ccw (pts) {
  * @return {Array}
  */
 export function subtract (...polygons) {
-  let tesselator = new Tesselator(2),
+  let tesselator = new tess.Tesselator(2),
       a = ensure_ccw(polygons[0]),
       b = polygons.slice(1).map(p => ensure_cw(p));
   return tesselator.outlines([a], b, false);
@@ -199,7 +246,20 @@ export function subtract (...polygons) {
  * @return {Array}
  */
 export function union (...polygons) {
-  let tesselator = new Tesselator(2);
+  let tesselator = new tess.Tesselator(2);
   polygons = polygons.map(p => ensure_ccw(p));
   return tesselator.outlines(polygons, [], false);
+}
+
+/**
+ * Intersection of a set of polygons
+ *
+ * @param {Array} a First polygon
+ * @param {Array} b Second polygon
+ *
+ * @return {Array}
+ */
+export function intersection (a, b) {
+  let t = new tess.Tesselator(2);
+  return t.intersection([ensure_ccw(a), ensure_ccw(b)]);
 }

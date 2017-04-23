@@ -1,14 +1,22 @@
 import {GluTesselator, gluEnum, windingRule, primitiveType} from 'libtess';
 import {is_ccw, is_cw} from './polygon';
 
-const {
+export const {
   GL_LINE_LOOP,
   GL_TRIANGLES,
   GL_TRIANGLE_STRIP,
   GL_TRIANGLE_FAN
 } = primitiveType;
 
-export default class Tesselator extends GluTesselator {
+export const {
+  GLU_TESS_WINDING_ODD,
+  GLU_TESS_WINDING_NONZERO,
+  GLU_TESS_WINDING_POSITIVE,
+  GLU_TESS_WINDING_NEGATIVE,
+  GLU_TESS_WINDING_ABS_GEQ_TWO
+} = windingRule;
+
+export class Tesselator extends GluTesselator {
 
   constructor (vsize=2) {
     super();
@@ -60,6 +68,17 @@ export default class Tesselator extends GluTesselator {
     this.gluTessProperty(gluEnum.GLU_TESS_WINDING_RULE, windingRule.GLU_TESS_WINDING_POSITIVE);
 
     this.start(polygons, holes, auto_winding);
+
+    return this._out;
+  }
+
+  intersection (polygons, holes=[]) {
+
+    this.gluTessNormal(0, 0, 1);
+    this.gluTessProperty(gluEnum.GLU_TESS_BOUNDARY_ONLY, true);
+    this.gluTessProperty(gluEnum.GLU_TESS_WINDING_RULE, windingRule.GLU_TESS_WINDING_ABS_GEQ_TWO);
+
+    this.start(polygons, holes, false);
 
     return this._out;
   }
