@@ -8,6 +8,42 @@ Polygon tools.
 
     npm i polygon-tools
 
+### polygon
+
+Summary of polygon methods:
+
+```javascript
+
+import {polygon} from 'polygon-tools';
+
+const POLYGON = [
+  [0, 0],
+  [100, 0],
+  [100, 100],
+  [0, 100]
+];
+
+// Signed area - 2D only
+let area = polygon.area(POLYGON);
+
+// Polygon normal - both 2D and 3D polygons
+let normal = polygon.normal(POLYGON);
+
+// Polygon centroid - 2D only
+let centroid = polygon.centroid(POLYGON);
+
+// Polygon winding - 2D only
+let winding = polygon.winding(POLYGON);
+// result is one of:
+const {WINDING_CW, WINDING_CCW, WINDING_UNKNOWN} = polygon;
+
+// test for WINDING_CW
+polygon.is_cw(POLYGON);
+
+// test for WINDING_CCW
+polygon.is_ccw(POLYGON);
+
+```
 
 ### triangulation
 

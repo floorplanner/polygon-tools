@@ -1,5 +1,5 @@
 import Tesselator from './tesselator';
-import * as t from './tools';
+import * as p from './polygon';
 
 function to_triangles (data) {
   let result = [];
@@ -8,6 +8,8 @@ function to_triangles (data) {
   }
   return result;
 }
+
+export var polygon = p;
 
 /**
  * Triangulates a polygon
@@ -21,10 +23,10 @@ export function triangulate (polygon, holes) {
   if (!polygon || polygon.length < 3 || !holes || holes.length < 1)
     return polygon;
 
-  let bounds = t.polygon_bounds(polygon);
+  let bounds = p.bounds(polygon);
 
   holes = holes.filter(hole => {
-    let b = t.polygon_bounds(hole),
+    let b = p.bounds(hole),
         out = b.xMin > bounds.xMax ||
               b.yMin > bounds.yMax ||
               b.xMax < bounds.xMin ||

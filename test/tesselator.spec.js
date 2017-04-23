@@ -1,6 +1,8 @@
 import fs from 'fs';
 import expect from 'expect.js';
-import {triangulate} from '../src/index';
+import {triangulate, polygon} from '../src/index';
+
+const {WINDING_CW, WINDING_CCW, WINDING_UNKNOWN} = polygon;
 
 const POLYGON = [
   [0, 0],
