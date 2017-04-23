@@ -47,6 +47,10 @@ polygon.is_ccw(POLYGON);
 
 ### boolean operations
 
+-  ```union (...polygons)```
+-  ```subtract (...polygons)```
+-  ```intersection (a, b)```
+
 ```javascript
 
 import {polygon} from 'polygon-tools';
@@ -72,13 +76,15 @@ let union = polygon.union(POLY_A, POLY_B);
 // NOTE: poly B..N are subtracted from A
 let subtract = polygon.subtract(POLY_A, POLY_B);
 
+// intersection(polyA, polyB)
+let intersection = polygon.intersection(POLY_A, POLY_B);
 ```
 
 ### triangulation
 
 ```javascript
 
-import {triangulate} from 'polygon-tools';
+import {polygon} from 'polygon-tools';
 
 const POLYGON = [
   [0, 0],
@@ -95,7 +101,7 @@ const HOLE = [
 ];
 
 // returns an array of triangles
-let triangles = triangulate(POLYGON, [HOLE]);
+let triangles = polygon.triangulate(POLYGON, [HOLE]);
 
 ```
 
