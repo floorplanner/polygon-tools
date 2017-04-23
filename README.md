@@ -45,6 +45,35 @@ polygon.is_ccw(POLYGON);
 
 ```
 
+### boolean operations
+
+```javascript
+
+import {polygon} from 'polygon-tools';
+
+const POLY_A = [
+  [0, 0],
+  [100, 0],
+  [100, 100],
+  [0, 100]
+];
+
+const POLY_B = [
+  [50, 50],
+  [150, 50],
+  [150, 150],
+  [50, 150]
+];
+
+// union(polyA, polyB, polyN, ...)
+let union = polygon.union(POLY_A, POLY_B);
+
+// difference(polyA, polyB, polyN, ...)
+// NOTE: poly B..N are subtracted from A
+let difference = polygon.difference(POLY_A, POLY_B);
+
+```
+
 ### triangulation
 
 ```javascript
