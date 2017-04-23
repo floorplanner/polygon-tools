@@ -68,9 +68,9 @@ const POLY_B = [
 // union(polyA, polyB, polyN, ...)
 let union = polygon.union(POLY_A, POLY_B);
 
-// difference(polyA, polyB, polyN, ...)
+// subtract(polyA, polyB, polyN, ...)
 // NOTE: poly B..N are subtracted from A
-let difference = polygon.difference(POLY_A, POLY_B);
+let subtract = polygon.subtract(POLY_A, POLY_B);
 
 ```
 

@@ -103,7 +103,7 @@ describe('polygon', () => {
     expect(cn[1]).to.be(50);
   });
 
-  it('should create union of 2 polygons', () => {
+  it('union', () => {
     let a = [[0, 0],
              [100, 0],
              [100, 100],
@@ -121,7 +121,7 @@ describe('polygon', () => {
     }
   });
 
-  it('should create difference of 2 polygons', () => {
+  it('subtract', () => {
     let a = [[0, 0],
              [100, 0],
              [100, 100],
@@ -130,9 +130,9 @@ describe('polygon', () => {
              [150, 50],
              [150, 150],
              [50, 150]];
-    let result = polygon.difference(a, b);
+    let result = polygon.subtract(a, b);
     try {
-      render('difference.png', result);
+      render('subtract.png', result);
     } catch (e) {
       console.log(e)
       console.log('\n    NOTE: to render a visualization: npm i canvas\n');

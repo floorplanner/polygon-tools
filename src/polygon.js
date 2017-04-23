@@ -1,4 +1,5 @@
 import Tesselator from './tesselator';
+import * as vec from './vec';
 
 export const WINDING_UNKNOWN = 0;
 export const WINDING_CCW = 1;
@@ -6,33 +7,6 @@ export const WINDING_CW = 2;
 
 export function ccw (a, b, c) {
   return (b[0] - a[0]) * (c[1] - a[1]) - (c[0] - a[0]) * (b[1] - a[1]);
-}
-
-function cross (a, b) {
-  return [
-    a[1] * b[2] - a[2] * b[1],
-    a[2] * b[0] - a[0] * b[2],
-    a[0] * b[1] - a[1] * b[0]
-  ];
-}
-
-function length (v) {
-  return v.length === 3 ?
-    Math.sqrt(v[0]*v[0]+v[1]*v[1]+v[2]*v[2]) :
-    Math.sqrt(v[0]*v[0]+v[1]*v[1]);
-}
-
-function normalize (v) {
-  let len = length(v);
-  return v.map(i => {
-    return i / len;
-  });
-}
-
-function subtract (a, b) {
-  return a.map((v, i) => {
-    return v - b[i];
-  });
 }
 
 /**
@@ -50,9 +24,9 @@ export function normal (pts) {
         return p.length === 3 ? p : [p[0], p[1], 0];
       }),
       [a, b, c] = vs,
-      ba = subtract(b, a),
-      ca = subtract(c, a),
-      cr = normalize(cross(ba, ca));
+      ba = vec.subtract(b, a),
+      ca = vec.subtract(c, a),
+      cr = vec.normalize(vec.cross(ba, ca));
 
   if (cr.some(v => isNaN(v))) {
     if (pts.length === 3) return null;
@@ -69,7 +43,7 @@ export function normal (pts) {
     n[2] = n[2] + (v[0] - w[0]) * (v[1] + w[1]);
   });
 
-  n = normalize(n);
+  n = vec.normalize(n);
 
   return n.some(v => isNaN(n)) ? null : n;
 }
@@ -204,13 +178,13 @@ export function ensure_ccw (pts) {
 }
 
 /**
- * Difference of a set of polygons
+ * Subtract polygons
  *
  * @param {Array} polygons
  *
  * @return {Array}
  */
-export function difference (...polygons) {
+export function subtract (...polygons) {
   let tesselator = new Tesselator(2),
       a = ensure_ccw(polygons[0]),
       b = polygons.slice(1).map(p => ensure_cw(p));
