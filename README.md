@@ -10,7 +10,7 @@ Polygon tools.
 
 ### documentation
 
-Documentation is avalaible [here](https://floorplanner.github.io/polygon-tools/).
+Documentation is available [here](https://floorplanner.github.io/polygon-tools/).
 
 ### polygon
 
