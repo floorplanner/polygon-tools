@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: polygon.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: polygon.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module polygon
+ */
+import * as tess from './tesselator';
+import * as vec from './vec';
+
+export const WINDING_UNKNOWN = 0;
+export const WINDING_CCW = 1;
+export const WINDING_CW = 2;
+
+export function ccw (a, b, c) {
+  return (b[0] - a[0]) * (c[1] - a[1]) - (c[0] - a[0]) * (b[1] - a[1]);
+}
+
+/**
+ * Polygon normal (2d / 3d)
+ *
+ * @param {Array} pts
+ *
+ * @return {Array} Polygon normal or null if the polygon is degenerate
+ */
+export function normal (pts) {
+
+  if (pts.length &lt; 3) return null;
+
+  let vs = pts.map(p => {
+        return p.length === 3 ? p : [p[0], p[1], 0];
+      }),
+      [a, b, c] = vs,
+      ba = vec.subtract(b, a),
+      ca = vec.subtract(c, a),
+      cr = vec.normalize(vec.cross(ba, ca));
+
+  if (cr.some(v => isNaN(v))) {
+    if (pts.length === 3) return null;
+  } else {
+    return cr;
+  }
+
+  // fallback to Newell's method
+  let n = [0, 0, 0];
+  vs.forEach((v, i) => {
+    let w = vs[(i+1) % pts.length];
+    n[0] = n[0] + (v[1] - w[1]) * (v[2] + w[2]);
+    n[1] = n[1] + (v[2] - w[2]) * (v[0] + w[0]);
+    n[2] = n[2] + (v[0] - w[0]) * (v[1] + w[1]);
+  });
+
+  n = vec.normalize(n);
+
+  return n.some(v => isNaN(n)) ? null : n;
+}
+
+/**
+ * Signed area of a polygon (2d)
+ *
+ * @param {Array} pts
+ *
+ * @return {Number}
+ */
+export function area (pts) {
+  return pts.reduce((a, p, i) => {
+    let pn = pts[i+1] || pts[0];
+    return a + p[0] * pn[1] - pn[0] * p[1];
+  }, 0) / 2;
+}
+
+/**
+ * Polygon centroid (2d)
+ *
+ * @param {Array} pts
+ *
+ * @return {Array}
+ */
+export function centroid (pts) {
+  let [x, y] = pts.reduce(([x,y], p, i) => {
+      let pn = pts[i+1] || pts[0],
+          c = p[0] * pn[1] - pn[0] * p[1];
+      return [x + (p[0] + pn[0]) * c, y + (p[1] + pn[1]) * c];
+  }, [0, 0]);
+
+  let ar = area(pts);
+  if (x !== 0) {
+      x = x / (Math.abs(ar) * 6);
+  }
+  if (y !== 0 ) {
+      y = y / (Math.abs(ar) * 6);
+  }
+
+  if (ar &lt; 0) {
+      x = -x;
+      y = -y;
+  }
+  return [x, y];
+}
+
+/**
+ * Tests wether the polygon winding is counter clockwise
+ *
+ * @param {Array} pts
+ *
+ * @return {Boolean}
+ */
+export function is_ccw (pts) {
+  return area(pts) > 0;
+}
+
+/**
+ * Tests wether the polygon winding is clockwise
+ *
+ * @param {Array} pts
+ *
+ * @return {Boolean}
+ */
+export function is_cw (pts) {
+  return area(pts) &lt; 0;
+}
+
+/**
+ * Polygon winding
+ *
+ * @param {Array} pts
+ *
+ * @return {Number}
+ */
+export function winding (pts) {
+  let a = area(pts);
+  if (a &lt; 0) return WINDING_CW;
+  if (a > 0) return WINDING_CCW;
+  return WINDING_UNKNOWN;
+}
+
+/**
+ * Polygon bounds.
+ * @typedef {Object} PolygonBounds
+ * @property {Number} xMin
+ * @property {Number} yMin
+ * @property {Number} xMax
+ * @property {Number} yMax
+ */
+
+/**
+ * Polygon bounds
+ *
+ * @param {Array} pts
+ *
+ * @return {PolygonBounds}
+ */
+export function bounds (pts) {
+  let min = [ Number.MAX_VALUE,  Number.MAX_VALUE],
+      max = [-Number.MAX_VALUE, -Number.MAX_VALUE];
+
+  pts.forEach(p => {
+    for (let i = 0; i &lt; p.length; ++i) {
+      min[i] = Math.min(min[i], p[i]);
+      max[i] = Math.max(max[i], p[i]);
+    }
+  });
+
+  return {
+    xMin: min[0],
+    yMin: min[1],
+    xMax: max[0],
+    yMax: max[1]
+  };
+}
+
+/**
+ * Ensures CW winding
+ *
+ * @param {Array} pts
+ *
+ * @return {Array}
+ */
+export function ensure_cw (pts) {
+  if (is_ccw(pts)) pts.reverse();
+  return pts;
+}
+
+/**
+ * Ensures CCW winding
+ *
+ * @param {Array} pts
+ *
+ * @return {Array}
+ */
+export function ensure_ccw (pts) {
+  if (is_cw(pts)) pts.reverse();
+  return pts;
+}
+
+/**
+ * Helper for triangulate
+ * @private
+ */
+function to_triangles (data) {
+  let result = [];
+  for (let i = 0; i &lt; data.length; i += 3) {
+    result.push([data[i], data[i+1], data[i+2]]);
+  }
+  return result;
+}
+
+/**
+ * Triangulates a polygon
+ *
+ * @param {Array} polygon
+ * @param {Array.&lt;Array>} holes
+ *
+ * @return triangles
+ */
+export function triangulate (polygon, holes) {
+  if (!polygon || polygon.length &lt; 3 || !holes || holes.length &lt; 1)
+    return polygon;
+
+  let bp = bounds(polygon);
+
+  holes = holes.filter(hole => {
+    let b = bounds(hole),
+        out = b.xMin > bp.xMax ||
+              b.yMin > bp.yMax ||
+              b.xMax &lt; bp.xMin ||
+              b.yMax &lt; bp.yMin;
+    return !out;
+  });
+
+  if (holes.length === 0) return polygon;
+
+  let tesselator = new tess.Tesselator(2);
+
+  return tesselator
+    .triangles([polygon], holes)
+    .map(to_triangles)
+    .reduce((p, v) => {
+      return p.concat(v);
+    }, []);
+}
+
+/**
+ * Subtract polygons
+ *
+ * @param {Array} polygons
+ *
+ * @return {Array}
+ */
+export function subtract (...polygons) {
+  let tesselator = new tess.Tesselator(2),
+      a = ensure_ccw(polygons[0]),
+      b = polygons.slice(1).map(p => ensure_cw(p));
+  return tesselator.outlines([a], b, false);
+}
+
+/**
+ * Union of a set of polygons
+ *
+ * @param {Array} polygons
+ *
+ * @return {Array}
+ */
+export function union (...polygons) {
+  let tesselator = new tess.Tesselator(2);
+  polygons = polygons.map(p => ensure_ccw(p));
+  return tesselator.outlines(polygons, [], false);
+}
+
+/**
+ * Intersection of a set of polygons
+ *
+ * @param {Array} a First polygon
+ * @param {Array} b Second polygon
+ *
+ * @return {Array}
+ */
+export function intersection (a, b) {
+  let t = new tess.Tesselator(2);
+  return t.intersection([ensure_ccw(a), ensure_ccw(b)]);
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-polygon.html">polygon</a></li><li><a href="module-tesselator.html">tesselator</a></li><li><a href="module-vec.html">vec</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sun Apr 23 2017 18:18:21 GMT+0200 (W. Europe Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
