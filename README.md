@@ -107,7 +107,11 @@ let triangles = polygon.triangulate(POLYGON, [HOLE]);
 
 ### use with PIXI
 
-Assuming we have the triangles and a texture:
+Suppose we want a textured polygon with holes. In such cases we cannot
+use ```polygon.subtract``` because any interior hole is returned as another
+polygon. To create polygons with holes we need use triangulation.
+
+Assuming we have the triangles (see above) and some texture:
 
 ```javascript
 
@@ -115,15 +119,15 @@ let sprite = new PIXI.Sprite(texture);
 let mask = new PIXI.Graphics();
 
 // create paths
-let tris = triangles.map(tri => {
+let paths = triangles.map(tri => {
   return tri.reduce((p, v) => {
     return p.push(v[0], v[1]);
   }, []);
 });
 
-tris.forEach(triangle => {
+paths.forEach(path => {
   mask.beginFill(0xff0000);
-  mask.drawPolygon(triangle);
+  mask.drawPolygon(path);
 });
 
 sprite.mask = mask;
