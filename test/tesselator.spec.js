@@ -3,6 +3,9 @@ import expect from 'expect.js';
 import {triangulate, polygon} from '../src/index';
 
 const {WINDING_CW, WINDING_CCW, WINDING_UNKNOWN} = polygon;
+const OUT = './test/out';
+
+if (!fs.existsSync(OUT)) fs.mkdirSync(OUT);
 
 const POLYGON = [
   [0, 0],
@@ -61,7 +64,7 @@ function render (outfile, triangles) {
     render_polygon(ctx, triangle)
   });
 
-  fs.writeFileSync(outfile, canvas.toBuffer());
+  fs.writeFileSync(`${OUT}/${outfile}`, canvas.toBuffer());
 }
 
 describe('tesselator', () => {

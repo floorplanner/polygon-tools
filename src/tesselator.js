@@ -26,14 +26,14 @@ export default class Tesselator extends GluTesselator {
     this.gluTessCallback(gluEnum.GLU_TESS_EDGE_FLAG, this._edge);
   }
 
-  start (polygons, holes) {
+  start (polygons, holes, auto_winding=true) {
     this._current = [];
     this._out = [];
 
     this.gluTessBeginPolygon();
 
     for (let poly of polygons) {
-      if (is_cw(poly)) poly.reverse();
+      if (auto_winding && is_cw(poly)) poly.reverse();
       this.gluTessBeginContour();
       for (let v of poly) {
         this.gluTessVertex(v, v);
@@ -42,7 +42,7 @@ export default class Tesselator extends GluTesselator {
     }
 
     for (let poly of holes) {
-      if (is_ccw(poly)) poly.reverse();
+      if (auto_winding && is_ccw(poly)) poly.reverse();
       this.gluTessBeginContour();
       for (let v of poly) {
         this.gluTessVertex(v, v);
@@ -53,23 +53,23 @@ export default class Tesselator extends GluTesselator {
     this.gluTessEndPolygon();
   }
 
-  outlines (polygons, holes=[]) {
+  outlines (polygons, holes=[], auto_winding=true) {
 
     this.gluTessNormal(0, 0, 1);
     this.gluTessProperty(gluEnum.GLU_TESS_BOUNDARY_ONLY, true);
     this.gluTessProperty(gluEnum.GLU_TESS_WINDING_RULE, windingRule.GLU_TESS_WINDING_POSITIVE);
 
-    this.start(polygons, holes);
+    this.start(polygons, holes, auto_winding);
 
     return this._out;
   }
 
-  triangles (polygons, holes=[]) {
+  triangles (polygons, holes=[], auto_winding=true) {
 
     this.gluTessNormal(0, 0, 1);
     this.gluTessProperty(gluEnum.GLU_TESS_WINDING_RULE, windingRule.GLU_TESS_WINDING_POSITIVE);
 
-    this.start(polygons, holes);
+    this.start(polygons, holes, auto_winding);
 
     return this._out;
   }

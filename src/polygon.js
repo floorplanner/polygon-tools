@@ -1,3 +1,4 @@
+import Tesselator from './tesselator';
 
 export const WINDING_UNKNOWN = 0;
 export const WINDING_CCW = 1;
@@ -152,6 +153,13 @@ export function winding (pts) {
   return WINDING_UNKNOWN;
 }
 
+/**
+ * Polygon bounds
+ *
+ * @param {Array} pts
+ *
+ * @return {Object}
+ */
 export function bounds (pts) {
   let min = [ Number.MAX_VALUE,  Number.MAX_VALUE],
       max = [-Number.MAX_VALUE, -Number.MAX_VALUE];
@@ -169,4 +177,55 @@ export function bounds (pts) {
     xMax: max[0],
     yMax: max[1]
   };
+}
+
+/**
+ * Ensures CW winding
+ *
+ * @param {Array} pts
+ *
+ * @return {Array}
+ */
+export function ensure_cw (pts) {
+  if (is_ccw(pts)) pts.reverse();
+  return pts;
+}
+
+/**
+ * Ensures CCW winding
+ *
+ * @param {Array} pts
+ *
+ * @return {Array}
+ */
+export function ensure_ccw (pts) {
+  if (is_cw(pts)) pts.reverse();
+  return pts;
+}
+
+/**
+ * Difference of a set of polygons
+ *
+ * @param {Array} polygons
+ *
+ * @return {Array}
+ */
+export function difference (...polygons) {
+  let tesselator = new Tesselator(2),
+      a = ensure_ccw(polygons[0]),
+      b = polygons.slice(1).map(p => ensure_cw(p));
+  return tesselator.outlines([a], b, false);
+}
+
+/**
+ * Union of a set of polygons
+ *
+ * @param {Array} polygons
+ *
+ * @return {Array}
+ */
+export function union (...polygons) {
+  let tesselator = new Tesselator(2);
+  polygons = polygons.map(p => ensure_ccw(p));
+  return tesselator.outlines(polygons, [], false);
 }
