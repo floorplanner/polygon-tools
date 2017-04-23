@@ -8,6 +8,10 @@ Polygon tools.
 
     npm i polygon-tools
 
+### documentation
+
+Documentation is avalaible [here](https://floorplanner.github.io/polygon-tools/).
+
 ### polygon
 
 Summary of polygon methods:
