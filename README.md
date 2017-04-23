@@ -131,5 +131,6 @@ paths.forEach(path => {
 });
 
 sprite.mask = mask;
+sprite.addChild(mask);
 
 ```
