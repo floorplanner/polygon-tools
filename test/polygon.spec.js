@@ -136,7 +136,6 @@ describe('polygon', () => {
     try {
       render('union.png', result);
     } catch (e) {
-      console.log(e)
       console.log('\n    NOTE: to render a visualization: npm i canvas\n');
     }
   });
@@ -155,7 +154,6 @@ describe('polygon', () => {
     try {
       render('subtract.png', result);
     } catch (e) {
-      console.log(e)
       console.log('\n    NOTE: to render a visualization: npm i canvas\n');
     }
   });
@@ -174,7 +172,6 @@ describe('polygon', () => {
     try {
       render('intersection.png', result);
     } catch (e) {
-      console.log(e)
       console.log('\n    NOTE: to render a visualization: npm i canvas\n');
     }
   });

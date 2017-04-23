@@ -1,3 +1,6 @@
+/**
+ * @module tesselator
+ */
 import {GluTesselator, gluEnum, windingRule, primitiveType} from 'libtess';
 import {is_ccw, is_cw} from './polygon';
 

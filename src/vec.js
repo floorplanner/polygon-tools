@@ -1,3 +1,6 @@
+/**
+ * @module vec
+ */
 export function cross (a, b) {
   a = a.length === 2 ? [a[0], a[1], 0] : a;
   b = b.length === 2 ? [b[0], b[1], 0] : b;

@@ -1,3 +1,6 @@
+/**
+ * @module polygon
+ */
 import * as tess from './tesselator';
 import * as vec from './vec';
 
@@ -14,7 +17,7 @@ export function ccw (a, b, c) {
  *
  * @param {Array} pts
  *
- * @return Polygon normal or null if the polygon is degenerate
+ * @return {Array} Polygon normal or null if the polygon is degenerate
  */
 export function normal (pts) {
 
@@ -128,11 +131,20 @@ export function winding (pts) {
 }
 
 /**
+ * Polygon bounds.
+ * @typedef {Object} PolygonBounds
+ * @property {Number} xMin
+ * @property {Number} yMin
+ * @property {Number} xMax
+ * @property {Number} yMax
+ */
+
+/**
  * Polygon bounds
  *
  * @param {Array} pts
  *
- * @return {Object}
+ * @return {PolygonBounds}
  */
 export function bounds (pts) {
   let min = [ Number.MAX_VALUE,  Number.MAX_VALUE],
