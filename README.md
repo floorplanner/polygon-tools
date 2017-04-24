@@ -120,6 +120,10 @@ let triangles = polygon.triangulate(POLYGON, [HOLE]);
 
 ### using the tesselator
 
+Instead of the convenience methods above, the tesselator
+can also be used directly. Different vertex sizes can be used so vertex
+attributes like UVs and normals are correctly interpolated.
+
 ```javascript
 
 import {tesselator} from 'polygon-tools';
