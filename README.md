@@ -16,6 +16,13 @@ Documentation is available [here](https://floorplanner.github.io/polygon-tools/)
 
 Summary of polygon methods:
 
+-  ```area(pts)```
+-  ```normal(pts)```
+-  ```centroid(pts)```
+-  ```winding(pts)```
+-  ```is_cw(pts)```
+-  ```is_ccw(pts)```
+
 ```javascript
 
 import {polygon} from 'polygon-tools';
@@ -85,6 +92,8 @@ let intersection = polygon.intersection(POLY_A, POLY_B);
 ```
 
 ### triangulation
+
+-  ```triangulate(polygon, holes)```
 
 ```javascript
 
