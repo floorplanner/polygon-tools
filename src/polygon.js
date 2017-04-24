@@ -24,7 +24,7 @@ export function normal (pts) {
   if (pts.length < 3) return null;
 
   let vs = pts.map(p => {
-        return p.length === 3 ? p : [p[0], p[1], 0];
+        return p.length >= 3 ? p : [p[0], p[1], 0];
       }),
       [a, b, c] = vs,
       ba = vec.subtract(b, a),
@@ -151,7 +151,7 @@ export function bounds (pts) {
       max = [-Number.MAX_VALUE, -Number.MAX_VALUE];
 
   pts.forEach(p => {
-    for (let i = 0; i < p.length; ++i) {
+    for (let i = 0; i < Math.min(3, p.length); ++i) {
       min[i] = Math.min(min[i], p[i]);
       max[i] = Math.max(max[i], p[i]);
     }

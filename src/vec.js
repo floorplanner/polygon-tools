@@ -28,7 +28,7 @@ export function cross (a, b) {
  * @return {Number}
  */
 export function length (v) {
-  return Math.sqrt(v.reduce((p, w, i) => {
+  return Math.sqrt(v.slice(0,3).reduce((p, w, i) => {
     return p + w*w;
   }, 0));
 }
@@ -42,7 +42,7 @@ export function length (v) {
  */
 export function normalize (v) {
   let len = length(v);
-  return v.map(i => i / len);
+  return v.slice(0,3).map(i => i / len);
 }
 
 /**
@@ -54,7 +54,7 @@ export function normalize (v) {
  * @return {Array}
  */
 export function add (a, b) {
-  return a.map((v, i) => v + b[i]);
+  return a.slice(0,3).map((v, i) => v + b[i]);
 }
 
 /**
@@ -66,7 +66,7 @@ export function add (a, b) {
  * @return {Array}
  */
 export function subtract (a, b) {
-  return a.map((v, i) => v - b[i]);
+  return a.slice(0,3).map((v, i) => v - b[i]);
 }
 
 export var sub = subtract;
