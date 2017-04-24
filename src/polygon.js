@@ -226,10 +226,9 @@ export function triangulate (polygon, holes) {
 
   if (holes.length === 0) return polygon;
 
-  let tesselator = new tess.Tesselator(2);
+  let options = {polygons: [polygon], holes: holes};
 
-  return tesselator
-    .triangles([polygon], holes)
+  return tess.run(options)
     .map(to_triangles)
     .reduce((p, v) => {
       return p.concat(v);
@@ -244,10 +243,13 @@ export function triangulate (polygon, holes) {
  * @return {Array}
  */
 export function subtract (...polygons) {
-  let tesselator = new tess.Tesselator(2),
-      a = ensure_ccw(polygons[0]),
-      b = polygons.slice(1).map(p => ensure_cw(p));
-  return tesselator.outlines([a], b, false);
+  let options = {
+        polygons: [ensure_ccw(polygons[0])],
+        holes: polygons.slice(1).map(p => ensure_cw(p)),
+        boundaryOnly: true,
+        autoWinding: false
+      };
+  return tess.run(options);
 }
 
 /**
@@ -258,9 +260,12 @@ export function subtract (...polygons) {
  * @return {Array}
  */
 export function union (...polygons) {
-  let tesselator = new tess.Tesselator(2);
-  polygons = polygons.map(p => ensure_ccw(p));
-  return tesselator.outlines(polygons, [], false);
+  let options = {
+        polygons: polygons.map(p => ensure_ccw(p)),
+        boundaryOnly: true,
+        autoWinding: false
+      };
+  return tess.run(options);
 }
 
 /**
@@ -272,6 +277,11 @@ export function union (...polygons) {
  * @return {Array}
  */
 export function intersection (a, b) {
-  let t = new tess.Tesselator(2);
-  return t.intersection([ensure_ccw(a), ensure_ccw(b)]);
+  let options = {
+        polygons: [ensure_ccw(a), ensure_ccw(b)],
+        boundaryOnly: true,
+        windingRule: tess.GLU_TESS_WINDING_ABS_GEQ_TWO,
+        autoWinding: false
+      };
+  return tess.run(options);
 }

@@ -2,7 +2,7 @@
  * @module tesselator
  */
 import {GluTesselator, gluEnum, windingRule, primitiveType} from 'libtess';
-import {is_ccw, is_cw} from './polygon';
+import {is_ccw, is_cw, normal} from './polygon';
 
 export const {
   GL_LINE_LOOP,
@@ -18,6 +18,26 @@ export const {
   GLU_TESS_WINDING_NEGATIVE,
   GLU_TESS_WINDING_ABS_GEQ_TWO
 } = windingRule;
+
+/**
+ * Tesselator options.
+ * @typedef {Object} TesselatorOptions
+ * @property {Array} [polygons=[]] Array of polygons
+ * @property {Array} [holes=[]] Array of holes
+ * @property {Number} [vertexSize=2] Vertex size to use
+ * @property {Number} [windingRule=GLU_TESS_WINDING_POSITIVE] Winding rule
+ * @property {Boolean} [boundaryOnly=false] Whether to output boundaries only
+ * @property {Array} [normal=null] Normal
+ * @property {Boolean} [autoWinding=true] Whether to automatically set the correct winding on polygons
+ */
+export const DEFAULT_OPTIONS = {
+  polygons: [],
+  holes: [],
+  windingRule: GLU_TESS_WINDING_POSITIVE,
+  boundaryOnly: false,
+  normal: null,
+  autoWinding: true
+};
 
 export class Tesselator extends GluTesselator {
 
@@ -64,34 +84,21 @@ export class Tesselator extends GluTesselator {
     this.gluTessEndPolygon();
   }
 
-  outlines (polygons, holes=[], auto_winding=true) {
+  run (options=DEFAULT_OPTIONS) {
+    let opts = Object.assign({}, DEFAULT_OPTIONS, options),
+        {polygons, holes, autoWinding, boundaryOnly} = opts;
 
-    this.gluTessNormal(0, 0, 1);
-    this.gluTessProperty(gluEnum.GLU_TESS_BOUNDARY_ONLY, true);
-    this.gluTessProperty(gluEnum.GLU_TESS_WINDING_RULE, windingRule.GLU_TESS_WINDING_POSITIVE);
+    if (!polygons || !polygons.length) {
+      throw new Error('need at least a single polygon');
+    }
 
-    this.start(polygons, holes, auto_winding);
+    let [nx, ny, nz] = opts.normal ? opts.normal : normal(polygons[0]);
 
-    return this._out;
-  }
+    this.gluTessNormal(nx, ny, nz);
+    this.gluTessProperty(gluEnum.GLU_TESS_BOUNDARY_ONLY, boundaryOnly);
+    this.gluTessProperty(gluEnum.GLU_TESS_WINDING_RULE, opts.windingRule);
 
-  intersection (polygons, holes=[]) {
-
-    this.gluTessNormal(0, 0, 1);
-    this.gluTessProperty(gluEnum.GLU_TESS_BOUNDARY_ONLY, true);
-    this.gluTessProperty(gluEnum.GLU_TESS_WINDING_RULE, windingRule.GLU_TESS_WINDING_ABS_GEQ_TWO);
-
-    this.start(polygons, holes, false);
-
-    return this._out;
-  }
-
-  triangles (polygons, holes=[], auto_winding=true) {
-
-    this.gluTessNormal(0, 0, 1);
-    this.gluTessProperty(gluEnum.GLU_TESS_WINDING_RULE, windingRule.GLU_TESS_WINDING_POSITIVE);
-
-    this.start(polygons, holes, auto_winding);
+    this.start(polygons, holes, autoWinding);
 
     return this._out;
   }
@@ -149,4 +156,17 @@ export class Tesselator extends GluTesselator {
     }
     return r;
   }
+}
+
+/**
+ * Runs the tesselator
+ *
+ * @param {TesselatorOptions} [options=TesselatorOptions] Options
+ *
+ * @returns {Array}
+ */
+export function run (options=DEFAULT_OPTIONS) {
+  let tesselator = new Tesselator(options.vertexSize);
+
+  return tesselator.run(options);
 }
