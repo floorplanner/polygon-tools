@@ -109,6 +109,40 @@ let triangles = polygon.triangulate(POLYGON, [HOLE]);
 
 ```
 
+### using the tesselator
+
+```javascript
+
+import {tesselator} from 'polygon-tools';
+
+const POLYGON = [
+  [0, 0],
+  [100, 0],
+  [100, 100],
+  [0, 100]
+];
+
+const HOLE = [
+  [30, 30],
+  [30, 70],
+  [70, 70],
+  [70, 30]
+];
+
+let options = {
+  polygons: [POLYGON],
+  holes: [HOLE],
+  vertexSize: 2,
+  windingRule: tesselator.GLU_TESS_WINDING_POSITIVE,
+  boundaryOnly: false,
+  normal: null,
+  autoWinding: true
+};
+
+let triangles = tesselator.run(options);
+
+```
+
 ### use with PIXI
 
 Suppose we want a textured polygon with holes. In such cases we cannot
