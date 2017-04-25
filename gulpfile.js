@@ -5,7 +5,6 @@ var fs = require('fs'),
     buffer = require('vinyl-buffer'),
     browserify = require('browserify'),
     awspublish = require('gulp-awspublish'),
-    AWS = require('aws-sdk'),
     banner = require('browserify-banner'),
     git = require('gulp-git');
 
