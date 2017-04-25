@@ -159,6 +159,18 @@ export class Tesselator extends GluTesselator {
 }
 
 /**
+ * Helper for triangulate
+ * @private
+ */
+function to_triangles (data) {
+  let result = [];
+  for (let i = 0; i < data.length; i += 3) {
+    result.push([data[i], data[i+1], data[i+2]]);
+  }
+  return result;
+}
+
+/**
  * Runs the tesselator
  *
  * @param {TesselatorOptions} [options=TesselatorOptions] Options
@@ -166,7 +178,8 @@ export class Tesselator extends GluTesselator {
  * @returns {Array}
  */
 export function run (options=DEFAULT_OPTIONS) {
-  let tesselator = new Tesselator(options.vertexSize);
+  let tesselator = new Tesselator(options.vertexSize),
+      result = tesselator.run(options);
 
-  return tesselator.run(options);
+  return options.boundaryOnly ? result : to_triangles(result);
 }

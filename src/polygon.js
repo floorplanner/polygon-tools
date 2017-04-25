@@ -190,18 +190,6 @@ export function ensure_ccw (pts) {
 }
 
 /**
- * Helper for triangulate
- * @private
- */
-function to_triangles (data) {
-  let result = [];
-  for (let i = 0; i < data.length; i += 3) {
-    result.push([data[i], data[i+1], data[i+2]]);
-  }
-  return result;
-}
-
-/**
  * Triangulates a polygon
  *
  * @param {Array} polygon
@@ -210,7 +198,7 @@ function to_triangles (data) {
  * @return triangles
  */
 export function triangulate (polygon, holes) {
-  if (!polygon || polygon.length < 3 || !holes || holes.length < 1)
+  if (!polygon || polygon.length < 3)
     return polygon;
 
   let bp = bounds(polygon);
@@ -224,12 +212,9 @@ export function triangulate (polygon, holes) {
     return !out;
   });
 
-  if (holes.length === 0) return polygon;
-
   let options = {polygons: [polygon], holes: holes};
 
   return tess.run(options)
-    .map(to_triangles)
     .reduce((p, v) => {
       return p.concat(v);
     }, []);
