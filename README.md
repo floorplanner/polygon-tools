@@ -8,6 +8,12 @@ Polygon tools.
 
     npm i polygon-tools
 
+### build
+
+Build minified javascript for use in browser:
+
+    npm run build
+
 ### documentation
 
 Documentation is available [here](https://floorplanner.github.io/polygon-tools/).
