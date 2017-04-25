@@ -4,6 +4,8 @@ var fs = require('fs'),
     source = require('vinyl-source-stream'),
     buffer = require('vinyl-buffer'),
     browserify = require('browserify'),
+    awspublish = require('gulp-awspublish'),
+    AWS = require('aws-sdk'),
     banner = require('browserify-banner'),
     git = require('gulp-git');
 
@@ -27,6 +29,15 @@ gulp.task('build', ['revnum'], function() {
         .pipe(buffer())
         .pipe(uglify())
         .pipe(gulp.dest('./build'));
+});
+
+
+gulp.task('deploy', ['build'], function() {
+    var publisher = awspublish.create({params: {Bucket: 'fpcdn/apps/polygon-tools/'+version}}),
+        zipped = gulp.src(['build/polygon-tools.min.js']);
+    return zipped.pipe(awspublish.gzip())
+        .pipe(publisher.publish())
+        .pipe(awspublish.reporter());
 });
 
 gulp.task('default', ['build']);
