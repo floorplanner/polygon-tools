@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+  <head>
+	<meta charset="utf-8">
+    <title>Polygon Tools</title>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  </head>
+  <body>
+    <canvas id="canvas" width="1000" height="1000"><canvas>
+    <script src="polygon-tools.min.js"></script>
+    <script>
+
+      function random_color () {
+        var r = Math.round(Math.random() * 0xff),
+            g = Math.round(Math.random() * 0xff),
+            b = Math.round(Math.random() * 0xff);
+        return "rgba("+r+","+g+","+b+",1)";
+      }
+
+      function render_result (ctx, result, offx, offy) {
+        result.forEach(function (polygon) {
+          ctx.fillStyle = random_color();
+          var p0 = polygon[0];
+          ctx.beginPath();
+          ctx.moveTo(p0[0]+offx, p0[1]+offy);
+          for (var i = 1; i < polygon.length; ++i) {
+            var p = polygon[i];
+            ctx.lineTo(p[0]+offx, p[1]+offy);
+          }
+          ctx.closePath();
+          ctx.fill();
+        });
+      }
+
+      window.onload = function() {
+        console.log('PolygonTools ' + PolygonTools.version + ' (' + PolygonTools.build + ')');
+
+        var canvas = document.getElementById('canvas'),
+            ctx = canvas.getContext('2d'),
+            polygon = PolygonTools.polygon,
+            poly = [
+              [0, 0],
+              [100, 0],
+              [100, 100],
+              [0, 100]
+            ],
+            hole = [
+              [50, 50],
+              [150, 50],
+              [150, 150],
+              [50, 150]
+            ],
+            result = polygon.triangulate(poly, [hole]);
+
+        render_result(ctx, [poly, hole], 0, 0)
+        render_result(ctx, [poly, hole], 0, 200)
+        render_result(ctx, [poly, hole], 0, 400)
+        render_result(ctx, [poly, hole], 0, 600)
+
+        render_result(ctx, result, 400, 0);
+        ctx.font = '20px Arial';
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'center';
+        ctx.fillText('triangulate', 270, 100);
+
+        result = polygon.union(poly, hole);
+        render_result(ctx, result, 400, 200);
+        ctx.font = '20px Arial';
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'center';
+        ctx.fillText('union', 270, 300);
+
+        result = polygon.subtract(poly, hole);
+        render_result(ctx, result, 400, 400);
+        ctx.font = '20px Arial';
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'center';
+        ctx.fillText('subtract', 270, 500);
+
+        result = polygon.intersection(poly, hole);
+        render_result(ctx, result, 400, 600);
+
+        ctx.font = '20px Arial';
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'center';
+        ctx.fillText('intersection', 270, 700);
+      }
+    </script>
+  </body>
+</html>
