@@ -1,5 +1,6 @@
 docs
 node_modules
 test/out
+build/*.js
 *.png
 *.jpg

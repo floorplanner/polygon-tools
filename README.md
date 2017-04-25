@@ -8,6 +8,12 @@ Polygon tools.
 
     npm i polygon-tools
 
+## browser
+
+The minified code is availabe through S3:
+
+    https://fpcdn.s3.amazonaws.com/apps/polygon-tools/0.3.10/polygon-tools.min.js
+
 ### build
 
 Build minified javascript for use in browser:
