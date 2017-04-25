@@ -180,6 +180,5 @@ function to_triangles (data) {
 export function run (options=DEFAULT_OPTIONS) {
   let tesselator = new Tesselator(options.vertexSize),
       result = tesselator.run(options);
-
-  return options.boundaryOnly ? result : to_triangles(result);
+  return options.boundaryOnly ? result : result.map(to_triangles);
 }

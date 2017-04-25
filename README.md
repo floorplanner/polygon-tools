@@ -12,7 +12,7 @@ Polygon tools.
 
 The minified code is availabe through S3:
 
-    https://fpcdn.s3.amazonaws.com/apps/polygon-tools/0.3.10/polygon-tools.min.js
+    https://fpcdn.s3.amazonaws.com/apps/polygon-tools/0.4.0/polygon-tools.min.js
 
 ### build
 
@@ -38,6 +38,14 @@ var area = PolygonTools.polygon.area(polygon);
 ### documentation
 
 Documentation is available [here](https://floorplanner.github.io/polygon-tools/).
+
+### examples
+
+-  [Union](https://jsfiddle.net/timknip/2tjkuvvj/)
+-  [Subtract](https://jsfiddle.net/timknip/jz7do1fy/)
+-  [Intersection](https://jsfiddle.net/timknip/fqh3d0t1/)
+-  [Triangulate](https://jsfiddle.net/timknip/hs2adah7/)
+-  [Tesselator](https://jsfiddle.net/timknip/4Lv0wd3q/)
 
 ### polygon
 
