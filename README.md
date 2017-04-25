@@ -14,6 +14,21 @@ Build minified javascript for use in browser:
 
     npm run build
 
+The library is exposed as ```PolygonTools```.
+
+```javascript
+
+var polygon = [
+  [0, 0],
+  [100, 0],
+  [100, 100],
+  [0, 100]
+];
+
+var area = PolygonTools.polygon.area(polygon);
+
+```
+
 ### documentation
 
 Documentation is available [here](https://floorplanner.github.io/polygon-tools/).
