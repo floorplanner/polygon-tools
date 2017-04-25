@@ -1,6 +1,6 @@
 {
   "name": "polygon-tools",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "description": "Polygon tools",
   "keywords": ["glu", "GLU", "tesselation", "triangulation", "polygon", "boolean"],
   "main": "lib/index.js",
