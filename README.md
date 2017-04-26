@@ -12,7 +12,7 @@ Polygon tools.
 
 The minified code is availabe through S3:
 
-    https://fpcdn.s3.amazonaws.com/apps/polygon-tools/0.4.0/polygon-tools.min.js
+    https://fpcdn.s3.amazonaws.com/apps/polygon-tools/0.4.1/polygon-tools.min.js
 
 ### build
 
