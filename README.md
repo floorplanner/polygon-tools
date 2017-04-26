@@ -46,6 +46,7 @@ Documentation is available [here](https://floorplanner.github.io/polygon-tools/)
 -  [Intersection](https://jsfiddle.net/timknip/fqh3d0t1/)
 -  [Triangulate](https://jsfiddle.net/timknip/hs2adah7/)
 -  [Tesselator](https://jsfiddle.net/timknip/4Lv0wd3q/)
+-  [Polygon Winding](https://jsfiddle.net/timknip/yuqa3o40/)
 
 ### polygon
 

@@ -37,6 +37,7 @@
     "prepublish": "babel src --out-dir lib",
     "test": "mocha -c",
     "build": "gulp build",
+    "deploy": "gulp deploy",
     "docs": "jsdoc --readme README.md -r src -d docs -c jsdoc/jsdoc.conf"
   },
   "license": "UNLICENSED"

@@ -172,6 +172,7 @@ function to_triangles (data) {
 
 /**
  * Runs the tesselator
+ * @see http://www.glprogramming.com/red/chapter11.html
  *
  * @param {TesselatorOptions} [options=TesselatorOptions] Options
  *
