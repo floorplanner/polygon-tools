@@ -113,6 +113,55 @@ describe('polygon', () => {
     expect(n[2]).to.be(1);
   });
 
+  it('should calculate polygon area (2d)', () => {
+    let a = [0, 0],
+        b = [100, 0],
+        c = [100, 100],
+        d = [0, 100],
+        area = polygon.area([a, b, c, d]);
+    expect(area).to.be(10000);
+  });
+
+  it('should calculate polygon area (3d)', () => {
+    let poly = [
+          [0, 0, 0],
+          [100, 0, 0],
+          [100, 100, 0],
+          [0, 100, 0]];
+    expect(polygon.area(poly)).to.be(10000);
+    poly.reverse();
+    expect(polygon.area(poly)).to.be(10000);
+    poly = [
+      [0, 0, 0],
+      [100, 0, 0],
+      [100, 0, 100],
+      [0, 0, 100]
+    ];
+    expect(polygon.area(poly)).to.be(10000);
+    poly.reverse();
+    expect(polygon.area(poly)).to.be(10000);
+  });
+
+  it('should calculate polygon area using a normal (3d)', () => {
+    let poly = [
+          [0, 0, 0],
+          [100, 0, 0],
+          [100, 100, 0],
+          [0, 100, 0]];
+    expect(polygon.area(poly, [0,0,1])).to.be(10000);
+    poly.reverse();
+    expect(polygon.area(poly, [0,0,1])).to.be(-10000);
+    poly = [
+      [0, 0, 0],
+      [100, 0, 0],
+      [100, 0, 100],
+      [0, 0, 100]
+    ];
+    expect(polygon.area(poly, [0, -1, 0])).to.be(10000);
+    poly.reverse();
+    expect(polygon.area(poly, [0, -1, 0])).to.be(-10000);
+  });
+
   it('should calculate polygon centroid', () => {
     let a = [0, 0],
         b = [100, 0],

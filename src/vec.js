@@ -34,6 +34,20 @@ export function length (v) {
 }
 
 /**
+ * Dot product
+ *
+ * @param {Array} a Vector
+ * @param {Array} b Vector
+ *
+ * @return {Number}
+ */
+export function dot (a, b) {
+  return a.reduce((p, v, i) => {
+    return p + v*b[i];
+  }, 0);
+}
+
+/**
  * Normalize a vector
  *
  * @param {Array} v Vector

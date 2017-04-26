@@ -61,14 +61,16 @@
 
     
 
-    <h4 class="name" id=".area"><span class="type-signature">(static) </span>area<span class="signature">(pts)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".area"><span class="type-signature">(static) </span>area<span class="signature">(pts, n<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
 
 
 <div class="description">
-    Signed area of a polygon (2d)
+    <p>Signed area of a polygon.
+For 3d polygons a signed area can only be computed when the optional
+polygon normal <code>n</code> is passed in.</p>
 </div>
 
 
@@ -92,7 +94,11 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -117,10 +123,61 @@
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
             
 
-            <td class="description last"></td>
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>Polygon points</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>n</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
+            
+
+            <td class="description last"><p>Optional polygon normal, needed to compute the signed area for 3d polygons</p></td>
         </tr>
 
     
@@ -161,7 +218,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="polygon.js.html">polygon.js</a>, <a href="polygon.js.html#line61">line 61</a>
+        <a href="polygon.js.html">polygon.js</a>, <a href="polygon.js.html#line64">line 64</a>
     </li></ul></dd>
     
 
@@ -217,7 +274,7 @@
 
 
 <div class="description">
-    Polygon bounds
+    <p>Polygon bounds</p>
 </div>
 
 
@@ -310,7 +367,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="polygon.js.html">polygon.js</a>, <a href="polygon.js.html#line149">line 149</a>
+        <a href="polygon.js.html">polygon.js</a>, <a href="polygon.js.html#line169">line 169</a>
     </li></ul></dd>
     
 
@@ -366,7 +423,7 @@
 
 
 <div class="description">
-    Polygon centroid (2d)
+    <p>Polygon centroid (2d)</p>
 </div>
 
 
@@ -459,7 +516,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="polygon.js.html">polygon.js</a>, <a href="polygon.js.html#line75">line 75</a>
+        <a href="polygon.js.html">polygon.js</a>, <a href="polygon.js.html#line92">line 92</a>
     </li></ul></dd>
     
 
@@ -508,14 +565,14 @@
 
     
 
-    <h4 class="name" id=".ensure_ccw"><span class="type-signature">(static) </span>ensure_ccw<span class="signature">(pts)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    <h4 class="name" id=".ensure_ccw"><span class="type-signature">(static) </span>ensure_ccw<span class="signature">(pts, n<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array}</span></h4>
 
     
 
 
 
 <div class="description">
-    Ensures CCW winding
+    <p>Ensures CCW winding</p>
 </div>
 
 
@@ -539,7 +596,11 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -564,10 +625,61 @@
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>n</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
+            
+
+            <td class="description last"><p>Optional polygon normal, needed for 3d polygons</p></td>
         </tr>
 
     
@@ -608,7 +720,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="polygon.js.html">polygon.js</a>, <a href="polygon.js.html#line187">line 187</a>
+        <a href="polygon.js.html">polygon.js</a>, <a href="polygon.js.html#line209">line 209</a>
     </li></ul></dd>
     
 
@@ -657,14 +769,14 @@
 
     
 
-    <h4 class="name" id=".ensure_cw"><span class="type-signature">(static) </span>ensure_cw<span class="signature">(pts)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    <h4 class="name" id=".ensure_cw"><span class="type-signature">(static) </span>ensure_cw<span class="signature">(pts, n<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array}</span></h4>
 
     
 
 
 
 <div class="description">
-    Ensures CW winding
+    <p>Ensures CW winding</p>
 </div>
 
 
@@ -688,7 +800,11 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -713,10 +829,61 @@
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>n</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
+            
+
+            <td class="description last"><p>Optional polygon normal, needed for 3d polygons</p></td>
         </tr>
 
     
@@ -757,7 +924,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="polygon.js.html">polygon.js</a>, <a href="polygon.js.html#line175">line 175</a>
+        <a href="polygon.js.html">polygon.js</a>, <a href="polygon.js.html#line196">line 196</a>
     </li></ul></dd>
     
 
@@ -813,7 +980,7 @@
 
 
 <div class="description">
-    Intersection of a set of polygons
+    <p>Intersection of a set of polygons</p>
 </div>
 
 
@@ -865,7 +1032,7 @@
 
             
 
-            <td class="description last">First polygon</td>
+            <td class="description last"><p>First polygon</p></td>
         </tr>
 
     
@@ -888,7 +1055,7 @@
 
             
 
-            <td class="description last">Second polygon</td>
+            <td class="description last"><p>Second polygon</p></td>
         </tr>
 
     
@@ -929,7 +1096,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="polygon.js.html">polygon.js</a>, <a href="polygon.js.html#line264">line 264</a>
+        <a href="polygon.js.html">polygon.js</a>, <a href="polygon.js.html#line286">line 286</a>
     </li></ul></dd>
     
 
@@ -978,14 +1145,14 @@
 
     
 
-    <h4 class="name" id=".is_ccw"><span class="type-signature">(static) </span>is_ccw<span class="signature">(pts)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".is_ccw"><span class="type-signature">(static) </span>is_ccw<span class="signature">(pts, n<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
 
     
 
 
 
 <div class="description">
-    Tests wether the polygon winding is counter clockwise
+    <p>Tests wether the polygon winding is counter clockwise</p>
 </div>
 
 
@@ -1009,7 +1176,11 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -1034,10 +1205,61 @@
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>n</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
+            
+
+            <td class="description last"><p>Optional polygon normal, needed for 3d polygons</p></td>
         </tr>
 
     
@@ -1078,7 +1300,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="polygon.js.html">polygon.js</a>, <a href="polygon.js.html#line104">line 104</a>
+        <a href="polygon.js.html">polygon.js</a>, <a href="polygon.js.html#line122">line 122</a>
     </li></ul></dd>
     
 
@@ -1127,14 +1349,14 @@
 
     
 
-    <h4 class="name" id=".is_cw"><span class="type-signature">(static) </span>is_cw<span class="signature">(pts)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+    <h4 class="name" id=".is_cw"><span class="type-signature">(static) </span>is_cw<span class="signature">(pts, n<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
 
     
 
 
 
 <div class="description">
-    Tests wether the polygon winding is clockwise
+    <p>Tests wether the polygon winding is clockwise</p>
 </div>
 
 
@@ -1158,7 +1380,11 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -1183,10 +1409,61 @@
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>n</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
+            
+
+            <td class="description last"><p>Optional polygon normal, needed for 3d polygons</p></td>
         </tr>
 
     
@@ -1227,7 +1504,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="polygon.js.html">polygon.js</a>, <a href="polygon.js.html#line115">line 115</a>
+        <a href="polygon.js.html">polygon.js</a>, <a href="polygon.js.html#line134">line 134</a>
     </li></ul></dd>
     
 
@@ -1283,7 +1560,7 @@
 
 
 <div class="description">
-    Polygon normal (2d / 3d)
+    <p>Polygon normal (2d / 3d)</p>
 </div>
 
 
@@ -1403,7 +1680,7 @@
 
         
 <div class="param-desc">
-    Polygon normal or null if the polygon is degenerate
+    <p>Polygon normal or null if the polygon is degenerate</p>
 </div>
 
 
@@ -1436,7 +1713,7 @@
 
 
 <div class="description">
-    Subtract polygons
+    <p>Subtract polygons</p>
 </div>
 
 
@@ -1529,7 +1806,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="polygon.js.html">polygon.js</a>, <a href="polygon.js.html#line230">line 230</a>
+        <a href="polygon.js.html">polygon.js</a>, <a href="polygon.js.html#line252">line 252</a>
     </li></ul></dd>
     
 
@@ -1585,7 +1862,7 @@
 
 
 <div class="description">
-    Triangulates a polygon
+    <p>Triangulates a polygon</p>
 </div>
 
 
@@ -1701,7 +1978,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="polygon.js.html">polygon.js</a>, <a href="polygon.js.html#line200">line 200</a>
+        <a href="polygon.js.html">polygon.js</a>, <a href="polygon.js.html#line222">line 222</a>
     </li></ul></dd>
     
 
@@ -1728,7 +2005,7 @@
 
         
 <div class="param-desc">
-    triangles
+    <p>triangles</p>
 </div>
 
 
@@ -1749,7 +2026,7 @@
 
 
 <div class="description">
-    Union of a set of polygons
+    <p>Union of a set of polygons</p>
 </div>
 
 
@@ -1842,7 +2119,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="polygon.js.html">polygon.js</a>, <a href="polygon.js.html#line247">line 247</a>
+        <a href="polygon.js.html">polygon.js</a>, <a href="polygon.js.html#line269">line 269</a>
     </li></ul></dd>
     
 
@@ -1891,14 +2168,14 @@
 
     
 
-    <h4 class="name" id=".winding"><span class="type-signature">(static) </span>winding<span class="signature">(pts)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    <h4 class="name" id=".winding"><span class="type-signature">(static) </span>winding<span class="signature">(pts, n<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Number}</span></h4>
 
     
 
 
 
 <div class="description">
-    Polygon winding
+    <p>Polygon winding (2d only)</p>
 </div>
 
 
@@ -1922,7 +2199,11 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -1947,10 +2228,61 @@
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>n</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
+            
+
+            <td class="description last"><p>Optional polygon normal, needed for 3d polygons</p></td>
         </tr>
 
     
@@ -1991,7 +2323,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="polygon.js.html">polygon.js</a>, <a href="polygon.js.html#line126">line 126</a>
+        <a href="polygon.js.html">polygon.js</a>, <a href="polygon.js.html#line146">line 146</a>
     </li></ul></dd>
     
 
@@ -2049,7 +2381,7 @@
 
 
 <div class="description">
-    Polygon bounds.
+    <p>Polygon bounds.</p>
 </div>
 
 
@@ -2218,7 +2550,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="polygon.js.html">polygon.js</a>, <a href="polygon.js.html#line133">line 133</a>
+        <a href="polygon.js.html">polygon.js</a>, <a href="polygon.js.html#line153">line 153</a>
     </li></ul></dd>
     
 
@@ -2254,7 +2586,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Tue Apr 25 2017 15:18:41 GMT+0200 (W. Europe Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Wed Apr 26 2017 15:36:57 GMT+0200 (W. Europe Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -52,17 +52,34 @@ export function normal (pts) {
 }
 
 /**
- * Signed area of a polygon (2d)
+ * Signed area of a polygon.
+ * For 3d polygons a signed area can only be computed when the optional
+ * polygon normal ```n``` is passed in.
  *
- * @param {Array} pts
+ * @param {Array} pts Polygon points
+ * @param {Array} [n=null] Optional polygon normal, needed to compute the signed area for 3d polygons
  *
  * @return {Number}
  */
-export function area (pts) {
-  return pts.reduce((a, p, i) => {
-    let pn = pts[i+1] || pts[0];
-    return a + p[0] * pn[1] - pn[0] * p[1];
-  }, 0) / 2;
+export function area (pts, n=null) {
+  if (pts.length < 3) return 0;
+  if (pts[0].length < 3) {
+    return pts.reduce((a, p, i) => {
+      let pn = pts[i+1] || pts[0];
+      return a + p[0] * pn[1] - pn[0] * p[1];
+    }, 0) / 2;
+  } else {
+    let num = pts.length,
+        nrm = n || normal(pts),
+        total = [0, 0, 0];
+    if (!nrm) return 0;
+    for (let i = 0; i < num; ++i) {
+      let v = pts[i],
+          w = pts[(i+1) % num];
+      total = vec.add(total, vec.cross(v, w));
+    }
+    return vec.dot(total, nrm) / 2;
+  }
 }
 
 /**
@@ -98,33 +115,36 @@ export function centroid (pts) {
  * Tests wether the polygon winding is counter clockwise
  *
  * @param {Array} pts
+ * @param {Array} [n=null] Optional polygon normal, needed for 3d polygons
  *
  * @return {Boolean}
  */
-export function is_ccw (pts) {
-  return area(pts) > 0;
+export function is_ccw (pts, n=null) {
+  return area(pts, n) > 0;
 }
 
 /**
  * Tests wether the polygon winding is clockwise
  *
  * @param {Array} pts
+ * @param {Array} [n=null] Optional polygon normal, needed for 3d polygons
  *
  * @return {Boolean}
  */
-export function is_cw (pts) {
-  return area(pts) < 0;
+export function is_cw (pts, n=null) {
+  return area(pts, n) < 0;
 }
 
 /**
- * Polygon winding
+ * Polygon winding (2d only)
  *
  * @param {Array} pts
+ * @param {Array} [n=null] Optional polygon normal, needed for 3d polygons
  *
  * @return {Number}
  */
-export function winding (pts) {
-  let a = area(pts);
+export function winding (pts, n=null) {
+  let a = area(pts, n);
   if (a < 0) return WINDING_CW;
   if (a > 0) return WINDING_CCW;
   return WINDING_UNKNOWN;
@@ -169,11 +189,12 @@ export function bounds (pts) {
  * Ensures CW winding
  *
  * @param {Array} pts
+ * @param {Array} [n=null] Optional polygon normal, needed for 3d polygons
  *
  * @return {Array}
  */
-export function ensure_cw (pts) {
-  if (is_ccw(pts)) pts.reverse();
+export function ensure_cw (pts, n=null) {
+  if (is_ccw(pts, n)) pts.reverse();
   return pts;
 }
 
@@ -181,11 +202,12 @@ export function ensure_cw (pts) {
  * Ensures CCW winding
  *
  * @param {Array} pts
+ * @param {Array} [n=null] Optional polygon normal, needed for 3d polygons
  *
  * @return {Array}
  */
-export function ensure_ccw (pts) {
-  if (is_cw(pts)) pts.reverse();
+export function ensure_ccw (pts, n=null) {
+  if (is_cw(pts, n)) pts.reverse();
   return pts;
 }
 
