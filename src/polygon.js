@@ -55,6 +55,7 @@ export function normal (pts) {
  * Signed area of a polygon.
  * For 3d polygons a signed area can only be computed when the optional
  * polygon normal ```n``` is passed in.
+ * @see http://stackoverflow.com/questions/12642256/python-find-area-of-polygon-from-xyz-coordinates
  *
  * @param {Array} pts Polygon points
  * @param {Array} [n=null] Optional polygon normal, needed to compute the signed area for 3d polygons
