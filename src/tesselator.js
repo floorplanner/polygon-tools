@@ -57,14 +57,13 @@ export class Tesselator extends GluTesselator {
     this.gluTessCallback(gluEnum.GLU_TESS_EDGE_FLAG, this._edge);
   }
 
-  start (polygons, holes, auto_winding=true) {
+  start (polygons, holes) {
     this._current = [];
     this._out = [];
 
     this.gluTessBeginPolygon();
 
     for (let poly of polygons) {
-      if (auto_winding && is_cw(poly)) poly.reverse();
       this.gluTessBeginContour();
       for (let v of poly) {
         this.gluTessVertex(v, v);
@@ -73,7 +72,6 @@ export class Tesselator extends GluTesselator {
     }
 
     for (let poly of holes) {
-      if (auto_winding && is_ccw(poly)) poly.reverse();
       this.gluTessBeginContour();
       for (let v of poly) {
         this.gluTessVertex(v, v);
@@ -92,13 +90,23 @@ export class Tesselator extends GluTesselator {
       throw new Error('need at least a single polygon');
     }
 
-    let [nx, ny, nz] = opts.normal ? opts.normal : normal(polygons[0]);
+    if (autoWinding) {
+      polygons = polygons.map(p => {
+        if (is_cw(p)) p.reverse();
+        return p;
+      });
+      holes = holes.map(p => {
+        if (is_ccw(p)) p.reverse();
+        return p;
+      });
+    }
 
+    let [nx, ny, nz] = opts.normal ? opts.normal : normal(polygons[0]);
     this.gluTessNormal(nx, ny, nz);
     this.gluTessProperty(gluEnum.GLU_TESS_BOUNDARY_ONLY, boundaryOnly);
     this.gluTessProperty(gluEnum.GLU_TESS_WINDING_RULE, opts.windingRule);
 
-    this.start(polygons, holes, autoWinding);
+    this.start(polygons, holes);
 
     return this._out;
   }
