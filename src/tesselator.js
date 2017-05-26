@@ -101,7 +101,8 @@ export class Tesselator extends GluTesselator {
       });
     }
 
-    let [nx, ny, nz] = opts.normal ? opts.normal : normal(polygons[0]);
+    let [nx, ny, nz] = opts.normal ? opts.normal : normal(polygons[0], true);
+
     this.gluTessNormal(nx, ny, nz);
     this.gluTessProperty(gluEnum.GLU_TESS_BOUNDARY_ONLY, boundaryOnly);
     this.gluTessProperty(gluEnum.GLU_TESS_WINDING_RULE, opts.windingRule);

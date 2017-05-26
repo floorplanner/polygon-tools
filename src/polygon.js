@@ -15,26 +15,30 @@ export function ccw (a, b, c) {
 /**
  * Polygon normal (2d / 3d)
  *
- * @param {Array} pts
+ * @param {Array} pts Points of the polygon
+ * @param {Boolean} [forceNewell=false] Whether to force Newell's method
  *
  * @return {Array} Polygon normal or null if the polygon is degenerate
  */
-export function normal (pts) {
+export function normal (pts, forceNewell=false) {
 
   if (pts.length < 3) return null;
 
   let vs = pts.map(p => {
-        return p.length >= 3 ? p : [p[0], p[1], 0];
-      }),
-      [a, b, c] = vs,
-      ba = vec.subtract(b, a),
-      ca = vec.subtract(c, a),
-      cr = vec.normalize(vec.cross(ba, ca));
+    return p.length >= 3 ? p : [p[0], p[1], 0];
+  });
 
-  if (cr.some(v => isNaN(v))) {
-    if (pts.length === 3) return null;
-  } else {
-    return cr;
+  if (!forceNewell) {
+    let [a, b, c] = vs,
+        ba = vec.subtract(b, a),
+        ca = vec.subtract(c, a),
+        cr = vec.normalize(vec.cross(ba, ca));
+
+    if (cr.some(v => isNaN(v))) {
+      if (pts.length === 3) return null;
+    } else {
+      return cr;
+    }
   }
 
   // fallback to Newell's method
@@ -48,7 +52,7 @@ export function normal (pts) {
 
   n = vec.normalize(n);
 
-  return n.some(v => isNaN(n)) ? null : n;
+  return n.some(v => isNaN(v)) ? null : n;
 }
 
 /**
