@@ -159,15 +159,17 @@ export class Tesselator extends GluTesselator {
   _edge () {}
   _error (errno) { console.error('error number: ' + errno); }
   _combine (v, data, w) {
+    for (let i = 0; i < 4; ++i) {
+      if (!data[i]) {
+        data[i] = new Array(this._vsize);
+        for (let j = 0; j < this._vsize; ++j) {
+          data[i][j] = 0;
+        }
+      }
+    }
     let r = new Array(this._vsize);
-    if (data.every(v => v instanceof Array)) {
-      for (var i = 0; i < this._vsize; ++i) {
-        r[i] = data[0][i] * w[0] + data[1][i] * w[1] + data[2][i] * w[2] + data[3][i] * w[3];
-      }
-    } else {
-      for (var i = 0; i < this._vsize; ++i) {
-        r[i] = v[i];
-      }
+    for (let i = 0; i < this._vsize; ++i) {
+      r[i] = data[0][i] * w[0] + data[1][i] * w[1] + data[2][i] * w[2] + data[3][i] * w[3];
     }
     return r;
   }

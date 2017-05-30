@@ -117,4 +117,24 @@ describe('tesselator', () => {
 
     expect(triangles[0].length).to.be(24);
   });
+
+  it ('should handle combine callback', () => {
+
+    let options = {
+      polygons: [[
+        [0, 0, 0],
+        [100, 0, 0],
+        [100, 200, 0],
+        [0, 200, 0]
+      ]],
+      holes: [[
+        [0, 0, 0],
+        [50, 0, 0],
+        [50, 50, 0],
+        [0, 50, 0]
+      ]]
+    };
+
+    let triangles = tess.run(options);
+  });
 });
