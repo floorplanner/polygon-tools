@@ -4,7 +4,7 @@ import * as p from './polygon';
 export var polygon = p;
 export var tesselator = tess;
 
-if (window !== undefined) {
+if (typeof window !== 'undefined') {
   window.PolygonTools = {
     polygon: p,
     tesselator: tess,
