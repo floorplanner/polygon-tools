@@ -109,4 +109,12 @@ describe('tesselator', () => {
     }
 
   });
+
+  it ('should handle combine callback', () => {
+    let options = JSON.parse(fs.readFileSync('test/data/fail01.json').toString());
+
+    let triangles = tess.run(options);
+
+    expect(triangles[0].length).to.be(24);
+  });
 });

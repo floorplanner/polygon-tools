@@ -160,8 +160,14 @@ export class Tesselator extends GluTesselator {
   _error (errno) { console.error('error number: ' + errno); }
   _combine (v, data, w) {
     let r = new Array(this._vsize);
-    for (var i = 0; i < this._vsize; ++i) {
-      r[i] = data[0][i] * w[0] + data[1][i] * w[1] + data[2][i] * w[2] + data[3][i] * w[3];
+    if (data.every(v => v instanceof Array)) {
+      for (var i = 0; i < this._vsize; ++i) {
+        r[i] = data[0][i] * w[0] + data[1][i] * w[1] + data[2][i] * w[2] + data[3][i] * w[3];
+      }
+    } else {
+      for (var i = 0; i < this._vsize; ++i) {
+        r[i] = v[i];
+      }
     }
     return r;
   }
