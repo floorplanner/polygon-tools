@@ -2,7 +2,7 @@
  * @module tesselator
  */
 import {GluTesselator, gluEnum, windingRule, primitiveType} from 'libtess';
-import {is_ccw, is_cw, normal} from './polygon';
+import {is_ccw, is_cw, normal, area} from './polygon';
 
 export const {
   GL_LINE_LOOP,
@@ -91,11 +91,15 @@ export class Tesselator extends GluTesselator {
     }
 
     if (autoWinding) {
-      polygons = polygons.map(p => {
+      polygons = polygons.filter(p => {
+        return Math.abs(area(p)) > 0;
+      }).map(p => {
         if (is_cw(p)) p.reverse();
         return p;
       });
-      holes = holes.map(p => {
+      holes = holes.filter(p => {
+        return Math.abs(area(p)) > 0;
+      }).map(p => {
         if (is_ccw(p)) p.reverse();
         return p;
       });

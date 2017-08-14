@@ -21,6 +21,8 @@ let L_SHAPE = [[
   [866.5808823529409,806.8382352941176],
   [221.19485294117618,806.8382352941176]]];
 
+let FAILED = JSON.parse(fs.readFileSync('test/data/fail02.json').toString());
+
 function cycle_polygon (p, i=0) {
   let res = p.slice(i);
   for (let j = 0; j < i; ++j) {
@@ -30,6 +32,18 @@ function cycle_polygon (p, i=0) {
 }
 
 describe('tesselator', () => {
+
+  it ('options.autoWinding + filter out zero area polygons', () => {
+
+    let options = {
+      polygons: FAILED.polygons.slice(),
+      holes: FAILED.holes.slice()
+    };
+
+    let triangles = tess.run(options);
+
+    expect(triangles[0].length).to.be(60);
+  });
 
   it ('options.autoWinding', () => {
     let options = {
