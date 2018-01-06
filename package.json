@@ -2,7 +2,14 @@
   "name": "polygon-tools",
   "version": "0.4.8",
   "description": "Polygon tools",
-  "keywords": ["glu", "GLU", "tesselation", "triangulation", "polygon", "boolean"],
+  "keywords": [
+    "glu",
+    "GLU",
+    "tesselation",
+    "triangulation",
+    "polygon",
+    "boolean"
+  ],
   "main": "lib/index.js",
   "dependencies": {
     "libtess": "^1.2.2"
