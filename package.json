@@ -1,6 +1,6 @@
 {
   "name": "polygon-tools",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "description": "Polygon tools",
   "keywords": ["glu", "GLU", "tesselation", "triangulation", "polygon", "boolean"],
   "main": "lib/index.js",
@@ -40,5 +40,5 @@
     "deploy": "gulp deploy",
     "docs": "jsdoc --readme README.md -r src -d docs -c jsdoc/jsdoc.conf"
   },
-  "license": "UNLICENSED"
+  "license": "MIT"
 }
