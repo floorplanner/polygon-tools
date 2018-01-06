@@ -4,3 +4,4 @@ test/out
 build/*.js
 *.png
 *.jpg
+package-lock.json
