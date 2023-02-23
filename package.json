@@ -11,6 +11,7 @@
     "boolean"
   ],
   "main": "lib/index.js",
+  "types": "types",
   "dependencies": {
     "libtess": "^1.2.2"
   },
@@ -45,7 +46,8 @@
     "test": "mocha -c",
     "build": "gulp build",
     "deploy": "gulp deploy",
-    "docs": "jsdoc --readme README.md -r src -d docs -c jsdoc/jsdoc.conf"
+    "docs": "jsdoc --readme README.md -r src -d docs -c jsdoc/jsdoc.conf",
+    "types": "npx -p typescript tsc src/*.js --declaration --allowJs --emitDeclarationOnly --outDir types"
   },
   "license": "MIT"
 }
